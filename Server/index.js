@@ -1,9 +1,24 @@
+const todos = require('./routes/todos');
 const express = require('express');
-const app = express(); //invoking express here
 const mongoose = require('mongoose');
+const cors = require('cors');
 
-require('dotenv').config()
+// import express from 'express';
+// import mongoose from 'mongoose';
+// import dotenv from 'dotenv';
 
+// import { Todo } from './models/todo.js';
+
+require('dotenv').config();
+
+const app = express(); //invoking express here
+
+app.use(cors()) // cors - a middleware function used here to add functionalities to our application; has access to request, response, and next and 
+// can add function to other middleware
+
+app.use(express.json()) // another middleware function used to pass json in the body of the request
+
+app.use('/api/todos', todos)
 
 
 // create an api endpoint to later get data from the database
@@ -12,11 +27,12 @@ app.get('/', (req, res) => {
 });
 
 const connection_string = process.env.CONNECTION_STRING
+const port = process.env.PORT || 5000
 
 // connecting to the port
 // this will later be replaced with an environmental variable
-app.listen(5000, () => {
-    console.log('server running on port 5000');
+app.listen(port, () => {
+    console.log(`server running on port ${port}`);
 });
 
 mongoose.connect(connection_string, {
@@ -25,4 +41,4 @@ mongoose.connect(connection_string, {
     useUnifiedTopology: true
 })
 .then(() => console.log('MongoDB connection established'))
-.catch((error) => console.error('MongoDB connection failed:', error.message))
+.catch((error) => console.error('MongoDB connection failed:', error.message));
