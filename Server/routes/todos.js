@@ -4,6 +4,8 @@ const Joi = require('joi');
 
 const router = express.Router();
 
+// endpoint to handle get request
+
 router.get('/', async(req, res) => {
     try {
         const todos =  await Todo.find()
@@ -15,6 +17,9 @@ router.get('/', async(req, res) => {
     }
    
 })
+
+// endpoint to handle post request
+
 
 router.post('/', async (req, res) => {
     const schema = Joi.object({
@@ -49,4 +54,17 @@ router.post('/', async (req, res) => {
     }
 });
 
-module.exports = router
+// endpoint to handle delete request
+router.delete('/:id', async (req, res) => {
+
+    try {
+        const deletedTodo = await Todo.findByIdAndDelete(req.params.id);
+
+        res.send(deletedTodo);
+    } catch (error) {
+        res.status(500).send(error.message);
+        console.log(error.message);
+    }
+})
+
+module.exports = router;
