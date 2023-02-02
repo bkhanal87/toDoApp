@@ -1,4 +1,5 @@
 const todos = require('./routes/todos');
+const signup = require('./routes/signup');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -18,7 +19,9 @@ app.use(cors()) // cors - a middleware function used here to add functionalities
 
 app.use(express.json()) // another middleware function used to pass json in the body of the request
 
-app.use('/api/todos', todos)
+app.use('/api/todos', todos);
+
+app.use('/api/signup', signup);
 
 
 // create an api endpoint to later get data from the database
